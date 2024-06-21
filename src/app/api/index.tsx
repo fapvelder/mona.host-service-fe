@@ -8,21 +8,21 @@ axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
+export const getProductTypes = () => axiosInstance.get("/product-type");
+export const createProductType = (name: string) =>
+  axiosInstance.post("/product-type", { name });
+export const updateProductType = (id: string, name: string) =>
+  axiosInstance.put(`/product-type/${id}`, { name });
+export const deleteProductType = (id: string) =>
+  axiosInstance.delete(`/product-type/${id}`);
+
 export const getProducts = () => axiosInstance.get("/product");
-export const createProduct = (name: string) =>
-  axiosInstance.post("/product", { name });
-export const updateProduct = (id: string, name: string) =>
-  axiosInstance.put(`/product/${id}`, { name });
+export const createProduct = (productData: object) =>
+  axiosInstance.post("/product", { productData });
+export const updateProduct = (id: string, productData: object) =>
+  axiosInstance.put(`/product/${id}`, { productData });
 export const deleteProduct = (id: string) =>
   axiosInstance.delete(`/product/${id}`);
-
-export const getProductTypes = () => axiosInstance.get("/product-type");
-export const createProductType = (productData: object) =>
-  axiosInstance.post("/product-type", { productData });
-export const updateProductType = (id: string, productData: object) =>
-  axiosInstance.put(`/product-type/${id}`, { productData });
-export const deleteProductTypes = (id: string) =>
-  axiosInstance.delete(`/product-type/${id}`);
 
 export const getCrossSells = () => axiosInstance.get("/cross-sell");
 export const addCrossSell = (option: string[], crossSellOption: string[]) =>

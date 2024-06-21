@@ -17,16 +17,21 @@ import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
   createProduct,
+  createProductType,
   deleteProduct,
+  deleteProductType,
+  getProductTypes,
   getProducts,
   updateProduct,
+  updateProductType,
+
 } from "../api";
 import AddIcon from "@mui/icons-material/Add";
 import { getError } from "../utils";
 import { AxiosError } from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-interface Product {
+interface ProductTypes {
   _id: string;
   name: string;
 }
@@ -38,12 +43,15 @@ interface ErrorResponse {
 export default function TabOne() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [products, setProducts] = useState<Product[]>([]);
+  const [productTypes, setProductTypes] = useState<ProductTypes[]>([]);
   const [reload, setReload] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<ProductTypes | null>(
+    null
+  );
 
-  const handleOpen = (product?: Product) => {
+  const handleOpen = (product?: ProductTypes) => {
+
     if (product) {
       setEditingProduct(product);
       setName(product.name);
@@ -64,8 +72,9 @@ export default function TabOne() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data } = await getProducts();
-        setProducts(data);
+        const { data } = await getProductTypes();
+        setProductTypes(data);
+
         setLoading(false);
       } catch (error) {
         console.log(getError(error as AxiosError<ErrorResponse>));
@@ -110,10 +119,11 @@ export default function TabOne() {
     try {
       setLoading(true);
       if (editingProduct) {
-        await updateProduct(editingProduct._id, name);
+        await updateProductType(editingProduct._id, name);
         toast.success("Updated data successfully");
       } else {
-        await createProduct(name);
+        await createProductType(name);
+
         toast.success("Created data successfully");
       }
       setLoading(false);
@@ -133,7 +143,7 @@ export default function TabOne() {
         "Are you sure you want to delete this data?"
       );
       if (confirmDelete) {
-        await deleteProduct(id);
+        await deleteProductType(id);
         setLoading(false);
         setReload(!reload);
         toast.success("Deleted data successfully");
@@ -160,7 +170,8 @@ export default function TabOne() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product, index) => (
+            {productTypes.map((product, index) => (
+
               <StyledTableRow key={index + 1}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}

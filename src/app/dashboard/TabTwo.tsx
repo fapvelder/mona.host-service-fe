@@ -22,11 +22,11 @@ import {
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
-  createProductType,
-  deleteProductTypes,
+  createProduct,
+  deleteProduct,
   getProductTypes,
   getProducts,
-  updateProductType,
+  updateProduct,
 } from "../api";
 import { getError } from "../utils";
 import { AxiosError } from "axios";
@@ -37,7 +37,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-interface ProductTypes {
+interface Product {
+
   product: {
     _id: string;
     name: string;
@@ -81,9 +82,8 @@ interface ErrorResponse {
 
 export default function TabTwo() {
   const [open, setOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<ProductTypes | null>(
-    null
-  );
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
   const [productTypes, setProductTypes] = useState([]);
   const [products, setProducts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -170,7 +170,8 @@ export default function TabTwo() {
     });
   };
 
-  const handleOpen = (product?: ProductTypes) => {
+  const handleOpen = (product?: Product) => {
+
     if (product) {
       setEditingProduct(product);
       setProductData({
@@ -287,10 +288,11 @@ export default function TabTwo() {
   const updateData = async () => {
     try {
       if (editingProduct) {
-        await updateProductType(editingProduct._id, productData);
+        await updateProduct(editingProduct._id, productData);
         toast.success("Updated data successfully");
       } else {
-        await createProductType(productData);
+        await createProduct(productData);
+
         toast.success("Created data successfully");
       }
       handleClose();
@@ -308,7 +310,8 @@ export default function TabTwo() {
         "Are you sure you want to delete this data?"
       );
       if (confirmDelete) {
-        await deleteProductTypes(id);
+        await deleteProduct(id);
+
         setReload(!reload);
         toast.success("Deleted data successfully");
       }
@@ -317,6 +320,7 @@ export default function TabTwo() {
       toast.error(getError(error as AxiosError<ErrorResponse>));
     }
   };
+
   return (
     <Box style={{ position: "relative", width: "80%", margin: "10px auto" }}>
       <Toaster />
@@ -325,7 +329,7 @@ export default function TabTwo() {
           <TableHead>
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Product</StyledTableCell>
+              <StyledTableCell>Product Type</StyledTableCell>
               <StyledTableCell>Product Name</StyledTableCell>
               <StyledTableCell>Period (Months)</StyledTableCell>
               <StyledTableCell>Sale Price (VNĐ)</StyledTableCell>
@@ -335,12 +339,13 @@ export default function TabTwo() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {productTypes.map((product: ProductTypes, index) => (
+            {products.map((product: Product, index) => (
+
               <StyledTableRow key={index + 1}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{product.product.name}</StyledTableCell>
+                <StyledTableCell>{product.product?.name}</StyledTableCell>
                 <StyledTableCell>{product.name}</StyledTableCell>
                 <StyledTableCell>{product.period}</StyledTableCell>
                 <StyledTableCell>{product.salePrice}</StyledTableCell>
@@ -398,7 +403,8 @@ export default function TabTwo() {
               fullWidth
               label="Product"
             >
-              {products.map((product: ProductTypes, index: number) => (
+              {productTypes.map((product: Product, index: number) => (
+
                 <MenuItem key={index} value={product._id}>
                   {product.name}
                 </MenuItem>

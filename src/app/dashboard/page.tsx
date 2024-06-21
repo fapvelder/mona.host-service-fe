@@ -32,8 +32,9 @@ const DashBoard = () => {
         variant="fullWidth"
         aria-label="full width tabs example"
       >
-        <Tab label="Product" {...a11yProps(0)} />
-        <Tab label="Product Type" {...a11yProps(1)} />
+        <Tab label="Product Type" {...a11yProps(0)} />
+        <Tab label="Product" {...a11yProps(1)} />
+
         <Tab label="Cross Sell" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
