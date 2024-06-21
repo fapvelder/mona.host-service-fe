@@ -22,6 +22,7 @@ import {
   deleteCrossSell,
   getCrossSells,
   getProductTypes,
+  getProducts,
   updateCrossSell,
 } from "../api";
 import { Add as AddIcon } from "@mui/icons-material";
@@ -33,7 +34,7 @@ import toast, { Toaster } from "react-hot-toast";
 interface ErrorResponse {
   message: string;
 }
-interface ProductTypes {
+interface Product {
   product: string;
   _id: string;
   name: string;
@@ -69,8 +70,8 @@ interface ProductTypes {
 }
 interface CrossSell {
   _id: string;
-  option: ProductTypes[];
-  crossSellOption: ProductTypes[];
+  option: Product[];
+  crossSellOption: Product[];
 }
 
 export default function TabThree() {
@@ -133,7 +134,7 @@ export default function TabThree() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getProductTypes();
+        const { data } = await getProducts();
         setProducts(data);
       } catch (error) {
         console.log(getError(error as AxiosError<ErrorResponse>));
@@ -240,14 +241,14 @@ export default function TabThree() {
                   {index + 1}
                 </StyledTableCell>
                 <StyledTableCell>
-                  {item.option.map((opt: ProductTypes) => (
+                  {item.option.map((opt: Product) => (
                     <div key={opt._id}>
                       {opt.name} - {opt.period} Months
                     </div>
                   ))}
                 </StyledTableCell>
                 <StyledTableCell>
-                  {item.crossSellOption.map((cross: ProductTypes) => (
+                  {item.crossSellOption.map((cross: Product) => (
                     <div key={cross._id}>
                       {cross.name} - {cross.period} Months
                     </div>
@@ -314,13 +315,11 @@ export default function TabThree() {
                         fullWidth
                         label="Option"
                       >
-                        {products.map(
-                          (product: ProductTypes, index: number) => (
-                            <MenuItem key={index} value={product._id}>
-                              {product.name} - {product.period} Months
-                            </MenuItem>
-                          )
-                        )}
+                        {products.map((product: Product, index: number) => (
+                          <MenuItem key={index} value={product._id}>
+                            {product.name} - {product.period} Months
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <IconButton
@@ -373,13 +372,11 @@ export default function TabThree() {
                         fullWidth
                         label="Cross Sell"
                       >
-                        {products.map(
-                          (product: ProductTypes, index: number) => (
-                            <MenuItem key={index} value={product._id}>
-                              {product.name} - {product.period} Months
-                            </MenuItem>
-                          )
-                        )}
+                        {products.map((product: Product, index: number) => (
+                          <MenuItem key={index} value={product._id}>
+                            {product.name} - {product.period} Months
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Box>
