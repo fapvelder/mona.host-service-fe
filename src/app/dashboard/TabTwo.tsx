@@ -38,6 +38,7 @@ import toast, { Toaster } from "react-hot-toast";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface Product {
+
   product: {
     _id: string;
     name: string;
@@ -82,6 +83,7 @@ interface ErrorResponse {
 export default function TabTwo() {
   const [open, setOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
   const [productTypes, setProductTypes] = useState([]);
   const [products, setProducts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -169,6 +171,7 @@ export default function TabTwo() {
   };
 
   const handleOpen = (product?: Product) => {
+
     if (product) {
       setEditingProduct(product);
       setProductData({
@@ -289,6 +292,7 @@ export default function TabTwo() {
         toast.success("Updated data successfully");
       } else {
         await createProduct(productData);
+
         toast.success("Created data successfully");
       }
       handleClose();
@@ -307,6 +311,7 @@ export default function TabTwo() {
       );
       if (confirmDelete) {
         await deleteProduct(id);
+
         setReload(!reload);
         toast.success("Deleted data successfully");
       }
@@ -315,7 +320,7 @@ export default function TabTwo() {
       toast.error(getError(error as AxiosError<ErrorResponse>));
     }
   };
-  console.log(products);
+
   return (
     <Box style={{ position: "relative", width: "80%", margin: "10px auto" }}>
       <Toaster />
@@ -335,6 +340,7 @@ export default function TabTwo() {
           </TableHead>
           <TableBody>
             {products.map((product: Product, index) => (
+
               <StyledTableRow key={index + 1}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
@@ -398,6 +404,7 @@ export default function TabTwo() {
               label="Product"
             >
               {productTypes.map((product: Product, index: number) => (
+
                 <MenuItem key={index} value={product._id}>
                   {product.name}
                 </MenuItem>

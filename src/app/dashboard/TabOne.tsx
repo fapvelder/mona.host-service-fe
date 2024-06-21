@@ -24,6 +24,7 @@ import {
   getProducts,
   updateProduct,
   updateProductType,
+
 } from "../api";
 import AddIcon from "@mui/icons-material/Add";
 import { getError } from "../utils";
@@ -50,6 +51,7 @@ export default function TabOne() {
   );
 
   const handleOpen = (product?: ProductTypes) => {
+
     if (product) {
       setEditingProduct(product);
       setName(product.name);
@@ -72,6 +74,7 @@ export default function TabOne() {
         setLoading(true);
         const { data } = await getProductTypes();
         setProductTypes(data);
+
         setLoading(false);
       } catch (error) {
         console.log(getError(error as AxiosError<ErrorResponse>));
@@ -120,6 +123,7 @@ export default function TabOne() {
         toast.success("Updated data successfully");
       } else {
         await createProductType(name);
+
         toast.success("Created data successfully");
       }
       setLoading(false);
@@ -167,6 +171,7 @@ export default function TabOne() {
           </TableHead>
           <TableBody>
             {productTypes.map((product, index) => (
+
               <StyledTableRow key={index + 1}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}

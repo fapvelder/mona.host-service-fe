@@ -72,6 +72,7 @@ interface CrossSell {
   _id: string;
   option: Product[];
   crossSellOption: Product[];
+
 }
 
 export default function TabThree() {
@@ -135,6 +136,7 @@ export default function TabThree() {
     const fetchData = async () => {
       try {
         const { data } = await getProducts();
+
         setProducts(data);
       } catch (error) {
         console.log(getError(error as AxiosError<ErrorResponse>));
@@ -242,6 +244,7 @@ export default function TabThree() {
                 </StyledTableCell>
                 <StyledTableCell>
                   {item.option.map((opt: Product) => (
+
                     <div key={opt._id}>
                       {opt.name} - {opt.period} Months
                     </div>
@@ -249,6 +252,7 @@ export default function TabThree() {
                 </StyledTableCell>
                 <StyledTableCell>
                   {item.crossSellOption.map((cross: Product) => (
+
                     <div key={cross._id}>
                       {cross.name} - {cross.period} Months
                     </div>
@@ -320,6 +324,7 @@ export default function TabThree() {
                             {product.name} - {product.period} Months
                           </MenuItem>
                         ))}
+
                       </Select>
                     </FormControl>
                     <IconButton
@@ -377,6 +382,7 @@ export default function TabThree() {
                             {product.name} - {product.period} Months
                           </MenuItem>
                         ))}
+
                       </Select>
                     </FormControl>
                   </Box>
